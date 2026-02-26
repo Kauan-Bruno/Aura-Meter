@@ -1,61 +1,111 @@
-# Aura-Meter// Função para calcular a aura
-function calculateAura() {
-    let name = document.getElementById("name").value;
-    let age = parseInt(document.getElementById("age").value);
-    let gender = document.getElementById("gender").value;
-    let state = document.getElementById("state").value;
-    let city = document.getElementById("city").value;
-    let team = document.getElementById("team").value;
-    let platform = document.getElementById("platform").value;
-    let games = document.getElementById("games").value;
-    let spendMoney = document.getElementById("spendMoney").value;
-    let yearsPlaying = parseInt(document.getElementById("yearsPlaying").value);
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Meter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Aura Meter</h1>
+        <form id="auraForm">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" required>
 
-    // Lógica simples para calcular a aura
-    let aura = 0;
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" min="0" required>
 
-    // Base value based on age and years of gaming
-    aura += age * 1000;
-    aura += yearsPlaying * 50000;
+            <label for="genero">Gênero:</label>
+            <select id="genero" required>
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+            </select>
 
-    // Adicionando valores conforme o gênero
-    if (gender === "masculino") {
-        aura += 200000;
-    } else if (gender === "feminino") {
-        aura += 150000;
-    }
+            <label for="estado">Estado que nasceu:</label>
+            <select id="estado" required>
+                <option value="">Selecione</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="PR">Paraná</option>
+                <option value="SP">São Paulo</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="GO">Goiás</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="BA">Bahia</option>
+                <option value="SE">Sergipe</option>
+                <option value="AL">Alagoas</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PB">Paraíba</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="CE">Ceará</option>
+                <option value="PI">Piauí</option>
+                <option value="MA">Maranhão</option>
+                <option value="TO">Tocantins</option>
+                <option value="PA">Pará</option>
+                <option value="AM">Amazonas</option>
+                <option value="RR">Roraima</option>
+                <option value="AP">Amapá</option>
+                <option value="AC">Acre</option>
+                <option value="RO">Rondônia</option>
+            </select>
 
-    // Se o usuário gasta dinheiro com jogos
-    if (spendMoney === "sim") {
-        aura += 500000;
-    }
+            <label for="cidade">Cidade que nasceu:</label>
+            <input type="text" id="cidade" required>
 
-    // Modificando aura conforme a plataforma de jogos
-    switch (platform) {
-        case "pc":
-            aura += 80000;
-            break;
-        case "playstation":
-            aura += 120000;
-            break;
-        case "xbox":
-            aura += 100000;
-            break;
-        case "mobile":
-            aura += 50000;
-            break;
-    }
+            <label for="time">Time Brasileiro que Torce:</label>
+            <select id="time" required>
+                <option value="">Selecione</option>
+                <option value="Flamengo">Flamengo</option>
+                <option value="Corinthians">Corinthians</option>
+                <option value="Palmeiras">Palmeiras</option>
+                <option value="São Paulo">São Paulo</option>
+                <option value="Grêmio">Grêmio</option>
+                <option value="Internacional">Internacional</option>
+                <option value="Santos">Santos</option>
+                <option value="Cruzeiro">Cruzeiro</option>
+                <option value="Atlético-MG">Atlético-MG</option>
+                <option value="Vasco">Vasco</option>
+                <option value="outro">Outro</option>
+            </select>
 
-    // Ajustando aura com base no tempo jogado
-    if (yearsPlaying > 5) {
-        aura += 300000;
-    }
+            <label for="plataforma">Plataforma que usa pra jogar:</label>
+            <select id="plataforma" required>
+                <option value="">Selecione</option>
+                <option value="PC">PC</option>
+                <option value="Console">Console</option>
+                <option value="Mobile">Mobile</option>
+                <option value="VR">VR</option>
+            </select>
 
-    // Exibindo o valor final da aura
-    document.getElementById("auraValue").innerText = `Sua aura é: ${aura.toLocaleString()}`;
-}
+            <label for="jogos">Quais Jogos que joga (selecione um ou mais):</label>
+            <select id="jogos" multiple required>
+                <option value="Minecraft">Minecraft</option>
+                <option value="Roblox">Roblox</option>
+                <option value="Fortnite">Fortnite</option>
+                <option value="League of Legends">League of Legends</option>
+                <option value="GTA V">GTA V</option>
+                <option value="Among Us">Among Us</option>
+                <option value="Valorant">Valorant</option>
+                <option value="Call of Duty">Call of Duty</option>
+                <option value="FIFA">FIFA</option>
+                <option value="PUBG">PUBG</option>
+            </select>
 
-// Evento de clique no botão para chamar a função de calcular a aura
-document.querySelector("button").addEventListener("click", function() {
-    calculateAura();
-});
+            <button type="submit">Calcular Aura</button>
+        </form>
+        <div id="resultado" class="hidden">
+            <h2>Sua Aura:</h2>
+            <p id="auraValor"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

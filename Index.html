@@ -1,88 +1,111 @@
+<!-- HTML -->
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medidor de Aura</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Aura Meter</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Medidor de Aura</h1>
-        <p>Responda as perguntas abaixo para descobrir sua aura!</p>
-        
+        <h1>Aura Meter</h1>
         <form id="auraForm">
-            <div class="question">
-                <label for="name">Nome Completo:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" required>
 
-            <div class="question">
-                <label for="age">Idade:</label>
-                <input type="number" id="age" name="age" required>
-            </div>
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" min="0" required>
 
-            <div class="question">
-                <label for="gender">Gênero:</label>
-                <select id="gender" name="gender">
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                    <option value="outro">Outro</option>
-                </select>
-            </div>
+            <label for="genero">Gênero:</label>
+            <select id="genero" required>
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+            </select>
 
-            <div class="question">
-                <label for="state">Estado que nasceu:</label>
-                <input type="text" id="state" name="state" required>
-            </div>
+            <label for="estado">Estado que nasceu:</label>
+            <select id="estado" required>
+                <option value="">Selecione</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="PR">Paraná</option>
+                <option value="SP">São Paulo</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="GO">Goiás</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="BA">Bahia</option>
+                <option value="SE">Sergipe</option>
+                <option value="AL">Alagoas</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PB">Paraíba</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="CE">Ceará</option>
+                <option value="PI">Piauí</option>
+                <option value="MA">Maranhão</option>
+                <option value="TO">Tocantins</option>
+                <option value="PA">Pará</option>
+                <option value="AM">Amazonas</option>
+                <option value="RR">Roraima</option>
+                <option value="AP">Amapá</option>
+                <option value="AC">Acre</option>
+                <option value="RO">Rondônia</option>
+            </select>
 
-            <div class="question">
-                <label for="city">Cidade que nasceu:</label>
-                <input type="text" id="city" name="city" required>
-            </div>
+            <label for="cidade">Cidade que nasceu:</label>
+            <input type="text" id="cidade" required>
 
-            <div class="question">
-                <label for="team">Time brasileiro que torce:</label>
-                <input type="text" id="team" name="team" required>
-            </div>
+            <label for="time">Time Brasileiro que Torce:</label>
+            <select id="time" required>
+                <option value="">Selecione</option>
+                <option value="Flamengo">Flamengo</option>
+                <option value="Corinthians">Corinthians</option>
+                <option value="Palmeiras">Palmeiras</option>
+                <option value="São Paulo">São Paulo</option>
+                <option value="Grêmio">Grêmio</option>
+                <option value="Internacional">Internacional</option>
+                <option value="Santos">Santos</option>
+                <option value="Cruzeiro">Cruzeiro</option>
+                <option value="Atlético-MG">Atlético-MG</option>
+                <option value="Vasco">Vasco</option>
+                <option value="outro">Outro</option>
+            </select>
 
-            <div class="question">
-                <label for="platform">Plataforma que usa para jogar jogos:</label>
-                <select id="platform" name="platform">
-                    <option value="pc">PC</option>
-                    <option value="playstation">Playstation</option>
-                    <option value="xbox">Xbox</option>
-                    <option value="mobile">Mobile</option>
-                </select>
-            </div>
+            <label for="plataforma">Plataforma que usa pra jogar:</label>
+            <select id="plataforma" required>
+                <option value="">Selecione</option>
+                <option value="PC">PC</option>
+                <option value="Console">Console</option>
+                <option value="Mobile">Mobile</option>
+                <option value="VR">VR</option>
+            </select>
 
-            <div class="question">
-                <label for="games">Jogos que joga:</label>
-                <input type="text" id="games" name="games" required>
-            </div>
+            <label for="jogos">Quais Jogos que joga (selecione um ou mais):</label>
+            <select id="jogos" multiple required>
+                <option value="Minecraft">Minecraft</option>
+                <option value="Roblox">Roblox</option>
+                <option value="Fortnite">Fortnite</option>
+                <option value="League of Legends">League of Legends</option>
+                <option value="GTA V">GTA V</option>
+                <option value="Among Us">Among Us</option>
+                <option value="Valorant">Valorant</option>
+                <option value="Call of Duty">Call of Duty</option>
+                <option value="FIFA">FIFA</option>
+                <option value="PUBG">PUBG</option>
+            </select>
 
-            <div class="question">
-                <label for="spendMoney">Você gasta dinheiro com o jogo que joga?</label>
-                <select id="spendMoney" name="spendMoney">
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <label for="yearsPlaying">Há quantos anos joga o jogo?</label>
-                <input type="number" id="yearsPlaying" name="yearsPlaying" required>
-            </div>
-
-            <button type="button" onclick="calculateAura()">Calcular Aura</button>
+            <button type="submit">Calcular Aura</button>
         </form>
-
-        <div id="result" class="result">
+        <div id="resultado" class="hidden">
             <h2>Sua Aura:</h2>
-            <p id="auraValue">Ainda não calculado...</p>
+            <p id="auraValor"></p>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
