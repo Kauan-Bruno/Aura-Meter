@@ -1,63 +1,100 @@
-/* CSS */
-body {
-    background-color: #000033; /* Azul marinho escuro */
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f001a, #000033, #1a0033);
+    color: #e0d0ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .container {
-    background-color: #000066; /* Azul escuro */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(128, 0, 128, 0.5); /* Roxo */
-    width: 400px;
-    text-align: center;
+    max-width: 480px;
+    margin: 0 auto;
+    background: rgba(10, 5, 40, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 10px 40px rgba(120, 0, 255, 0.4);
+    border: 1px solid rgba(180, 100, 255, 0.2);
 }
 
 h1 {
-    color: #ff69b4; /* Rosa choque */
+    text-align: center;
+    color: #ff69b4;
+    margin-bottom: 32px;
+    font-size: 2.6rem;
+    text-shadow: 0 0 20px #ff69b4aa;
 }
 
 label {
     display: block;
-    margin: 10px 0 5px;
-    color: #d8bfd8; /* Roxo claro */
+    margin: 20px 0 8px;
+    color: #d0b0ff;
+    font-weight: 500;
 }
 
 input, select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #4b0082; /* Roxo */
-    border-radius: 5px;
-    background-color: #000033;
-    color: #ffffff;
+    padding: 14px;
+    border: 1px solid #4b0082;
+    border-radius: 10px;
+    background: rgba(20, 10, 60, 0.7);
+    color: white;
+    font-size: 1rem;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #ff69b4;
+    box-shadow: 0 0 12px #ff69b466;
 }
 
 button {
-    background-color: #ff69b4; /* Rosa choque */
-    color: #000033;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     width: 100%;
+    padding: 16px;
+    margin-top: 32px;
+    background: linear-gradient(90deg, #ff1493, #c71585);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 button:hover {
-    background-color: #ff1493; /* Rosa mais escuro */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px #ff149488;
+}
+
+.dica {
+    font-size: 0.85rem;
+    color: #bb99ff;
+    margin-top: 6px;
+    text-align: center;
 }
 
 #resultado {
-    margin-top: 20px;
-    background-color: #4b0082; /* Roxo */
-    padding: 10px;
-    border-radius: 5px;
+    margin-top: 40px;
+    text-align: center;
+    background: rgba(75, 0, 130, 0.5);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid #9d4edd;
+}
+
+.aura-numero {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 0 0 30px #ffeb3baa, 0 0 60px #ffeb3b55;
+    margin: 16px 0;
 }
 
 .hidden {

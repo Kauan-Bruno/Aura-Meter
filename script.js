@@ -1,53 +1,48 @@
-// JS atualizado - Aura escalada para 0 a ~1 trilhão
-
 document.getElementById('auraForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Obter valores
-    const nome = document.getElementById('nome').value.trim();
-    const idade = parseInt(document.getElementById('idade').value);
-    const genero = document.getElementById('genero').value;
-    const estado = document.getElementById('estado').value;
-    const time = document.getElementById('time').value;
-    const plataforma = document.getElementById('plataforma').value;
-    const jogosSelect = document.getElementById('jogos');
-    const jogos = Array.from(jogosSelect.selectedOptions).map(option => option.value);
+    const nome        = document.getElementById('nome').value.trim();
+    const idade       = parseInt(document.getElementById('idade').value);
+    const genero      = document.getElementById('genero').value;
+    const estado      = document.getElementById('estado').value;
+    const time        = document.getElementById('time').value;
+    const plataforma  = document.getElementById('plataforma').value;
 
-    // Aura base bem maior (milhões a dezenas de bilhões)
+    const jogosSelect = document.getElementById('jogos');
+    const jogos       = Array.from(jogosSelect.selectedOptions).map(opt => opt.value);
+
+    if (jogos.length > 3) {
+        alert("Máximo de 3 jogos permitidos!");
+        return;
+    }
+    if (jogos.length === 0) {
+        alert("Selecione pelo menos 1 jogo!");
+        return;
+    }
+
     let aura = calcularAuraNome(nome) + calcularAuraIdade(idade);
 
-    // Multiplicador total
-    let multiplicador = 1;
+    let mult = 1;
+    mult *= (1 + calcularPorcentagemGenero(genero));
+    mult *= (1 + calcularPorcentagemEstado(estado));
+    mult *= (1 + calcularPorcentagemTime(time));
+    mult *= (1 + calcularPorcentagemPlataforma(plataforma));
 
-    multiplicador *= (1 + calcularPorcentagemGenero(genero));
-    multiplicador *= (1 + calcularPorcentagemEstado(estado));
-    multiplicador *= (1 + calcularPorcentagemTime(time));
-    multiplicador *= (1 + calcularPorcentagemPlataforma(plataforma));
-
-    // Efeitos dos jogos
     jogos.forEach(jogo => {
         const efeito = calcularEfeitoJogo(jogo);
         if (efeito.isPercent) {
-            multiplicador *= (1 + efeito.valor);
+            mult *= (1 + efeito.valor);
         } else {
             aura += efeito.valor;
         }
     });
 
-    // Bônus final pequeno aleatório (ajuda a variar)
-    aura += randomInt(-500_000_000, 1_500_000_000); // -0.5B a +1.5B
+    aura += randomInt(-1_000_000_000, 5_000_000_000);
 
-    // Aplicar multiplicador
-    aura = Math.round(aura * multiplicador);
-
-    // Limitar entre 0 e 1 trilhão
+    aura = Math.round(aura * mult);
     aura = Math.max(0, Math.min(aura, 1_000_000_000_000));
 
-    // Formatar com sufixos para ficar legível
-    const auraFormatada = formatarNumero(aura);
-
-    // Mostrar
-    document.getElementById('auraValor').textContent = `${auraFormatada} Aura`;
+    document.getElementById('auraValor').textContent = formatarNumero(aura) + " Aura";
     document.getElementById('resultado').classList.remove('hidden');
 });
 
@@ -57,93 +52,70 @@ function randomInt(min, max) {
 
 function calcularAuraNome(nome) {
     const partes = nome.split(/\s+/);
-    const primeiroNome = partes[0];
-    const sobrenomes = partes.slice(1);
-    const numSobrenomes = sobrenomes.length;
+    const primeiro = partes[0] || "";
+    const sobrenomes = partes.slice(1).length;
 
-    let auraNome = 0;
+    let base = 0;
 
-    // Primeiro nome (escalado ×100)
-    const lenPrimeiro = primeiroNome.length;
-    if (lenPrimeiro < 5) {
-        auraNome += randomInt(500_000, 1_000_000);     // 0.5M – 1M
-    } else if (lenPrimeiro <= 7) {
-        auraNome += randomInt(300_000, 700_000);
-    } else {
-        auraNome += randomInt(100_000, 300_000);
-    }
+    const len = primeiro.length;
+    if (len < 5)        base += randomInt(5_000_000, 10_000_000);
+    else if (len <= 7)  base += randomInt(300_000, 700_000);
+    else                base += randomInt(10_000, 30_000);
 
-    // Sobrenomes (escalado)
-    if (numSobrenomes === 1) {
-        auraNome += randomInt(500_000, 1_000_000);
-    } else if (numSobrenomes === 2 || numSobrenomes === 3) {
-        auraNome += randomInt(200_000, 300_000);
-    } else if (numSobrenomes > 3) {
-        auraNome -= 400_000;
-    }
+    if (sobrenomes === 1)       base += randomInt(5_000_000, 10_000_000);
+    else if (sobrenomes <= 3)   base += randomInt(200_000, 300_000);
+    else if (sobrenomes > 3)    base -= 400_000;
 
-    return auraNome * 100;  // ×100 final → casa dos milhões/bilhões
+    return base;
 }
 
 function calcularAuraIdade(idade) {
-    if (idade < 13) {
-        return randomInt(200_000, 500_000) * 100;
-    } else if (idade >= 14 && idade <= 18) {
-        return randomInt(300_000, 700_000) * 100;
-    } else if (idade >= 19 && idade <= 30) {
-        return randomInt(500_000, 1_000_000) * 100;
-    } else if (idade > 40) {
-        return randomInt(1_000_000, 2_000_000) * 100;
-    }
-    return 0;
+    if (idade < 13)               return randomInt(200_000, 500_000);
+    if (idade >= 14 && idade <= 18) return randomInt(3_000_000, 7_000_000) * 3;
+    if (idade >= 19 && idade <= 30) return randomInt(5_000_000, 10_000_000);
+    if (idade > 40)               return randomInt(10_000_000, 20_000_000);
+    return randomInt(1_000, 10_000); // 31–40 bem baixo
 }
 
-function calcularPorcentagemGenero(genero) {
-    return genero === 'outro' ? -0.05 : 0;
-}
+function calcularPorcentagemGenero(g) { return g === 'outro' ? -0.10 : 0; }
 
-function calcularPorcentagemEstado(estado) {
-    const sul      = ['RS', 'SC', 'PR'];           // +20%
-    const sudeste  = ['SP', 'RJ', 'MG', 'ES'];     // +10%
-    const centro   = ['MS', 'MT', 'GO', 'DF'];     // 0%
-    const nordeste = ['BA','SE','AL','PE','PB','RN','CE','PI','MA']; // -10%
-    const norte    = ['TO','PA','AM','RR','AP','AC','RO'];           // -15%
-
-    if (sul.includes(estado))      return 0.20;
-    if (sudeste.includes(estado))  return 0.10;
-    if (centro.includes(estado))   return 0;
-    if (nordeste.includes(estado)) return -0.10;
-    if (norte.includes(estado))    return -0.15;
-    return -0.15;
+function calcularPorcentagemEstado(uf) {
+    if (['RS','SC','PR'].includes(uf)) return 0.30;
+    if (['SP','RJ','MG','ES'].includes(uf)) return 0.15;
+    if (['MS','MT','GO','DF'].includes(uf)) return 0;
+    if (['BA','SE','AL','PE','PB','RN','CE','PI','MA'].includes(uf)) return -0.20;
+    return -0.30;
 }
 
 function calcularPorcentagemTime(time) {
-    const top10 = ['Flamengo','Corinthians','Palmeiras','São Paulo','Grêmio','Internacional','Santos','Cruzeiro','Atlético-MG','Vasco'];
-    if (!top10.includes(time)) return -0.30;
-    return randomInt(-10, 20) / 100;
+    if (time === 'Flamengo')    return 0.40;
+    if (time === 'Palmeiras')   return 0.30;
+    if (time === 'Corinthians') return 0.20;
+    if (time === 'Vasco')       return 0.10;
+    if (['São Paulo','Grêmio','Internacional','Santos','Cruzeiro','Atlético-MG','Botafogo','Fluminense','Athletico-PR','Bahia','Fortaleza','Vitória','Sport','Ceará'].includes(time)) {
+        return randomInt(-10, 10) / 100;
+    }
+    return -0.50;
 }
 
-function calcularPorcentagemPlataforma(plataforma) {
-    const bonus = { 'PC': 0.20, 'Console': 0.10, 'Mobile': -0.15, 'VR': -0.15 };
-    return bonus[plataforma] || 0;
+function calcularPorcentagemPlataforma(p) {
+    if (p === 'PC')      return 0.50;
+    if (p === 'Console') return 0.20;
+    if (p === 'Mobile')  return -0.40;
+    if (p === 'VR')      return -0.40;
+    return 0;
 }
 
 function calcularEfeitoJogo(jogo) {
-    if (jogo === 'Minecraft') {
-        return { isPercent: true, valor: 1.00 };   // ×2
-    }
-    if (jogo === 'Roblox') {
-        return { isPercent: true, valor: -0.75 };  // ×0.25
-    }
-    // Outros jogos → valor fixo grande
-    return { isPercent: false, valor: randomInt(-50_000_000, 150_000_000) }; // -50M a +150M
+    if (jogo === 'Minecraft') return { isPercent: true,  valor: 2.00 };
+    if (jogo === 'Roblox')    return { isPercent: true,  valor: -0.90 };
+    return { isPercent: false, valor: randomInt(-100_000_000, 500_000_000) };
 }
 
-// Formatação bonita: B, M, K, etc.
-function formatarNumero(num) {
-    if (num >= 1_000_000_000_000) return (num / 1_000_000_000_000).toFixed(2) + 'T';
-    if (num >= 1_000_000_000)    return (num / 1_000_000_000).toFixed(1) + 'B';
-    if (num >= 1_000_000)        return (num / 1_000_000).toFixed(1) + 'M';
-    if (num >= 1_000)            return (num / 1_000).toFixed(0) + 'K';
-    return num.toString();
+function formatarNumero(n) {
+    if (n >= 1e12) return (n / 1e12).toFixed(2) + "T";
+    if (n >= 1e9)  return (n / 1e9).toFixed(1)  + "B";
+    if (n >= 1e6)  return (n / 1e6).toFixed(1)  + "M";
+    if (n >= 1e3)  return (n / 1e3).toFixed(0)  + "K";
+    return n.toString();
 }

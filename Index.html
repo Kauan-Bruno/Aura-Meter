@@ -1,4 +1,3 @@
-<!-- HTML -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,100 +11,121 @@
         <h1>Aura Meter</h1>
         <form id="auraForm">
             <label for="nome">Nome Completo:</label>
-            <input type="text" id="nome" required>
+            <input type="text" id="nome" placeholder="Ex: Kauan Silva Santos" required>
 
             <label for="idade">Idade:</label>
-            <input type="number" id="idade" min="0" required>
+            <input type="number" id="idade" min="0" max="120" required>
 
             <label for="genero">Gênero:</label>
             <select id="genero" required>
                 <option value="">Selecione</option>
                 <option value="masculino">Masculino</option>
                 <option value="feminino">Feminino</option>
-                <option value="outro">Outro</option>
+                <option value="outro">Outro / Não-binário</option>
             </select>
 
             <label for="estado">Estado que nasceu:</label>
             <select id="estado" required>
-                <option value="">Selecione</option>
-                <option value="RS">Rio Grande do Sul</option>
-                <option value="SC">Santa Catarina</option>
-                <option value="PR">Paraná</option>
-                <option value="SP">São Paulo</option>
-                <option value="RJ">Rio de Janeiro</option>
-                <option value="MG">Minas Gerais</option>
-                <option value="ES">Espírito Santo</option>
-                <option value="MS">Mato Grosso do Sul</option>
-                <option value="GO">Goiás</option>
-                <option value="DF">Distrito Federal</option>
-                <option value="MT">Mato Grosso</option>
-                <option value="BA">Bahia</option>
-                <option value="SE">Sergipe</option>
-                <option value="AL">Alagoas</option>
-                <option value="PE">Pernambuco</option>
-                <option value="PB">Paraíba</option>
-                <option value="RN">Rio Grande do Norte</option>
-                <option value="CE">Ceará</option>
-                <option value="PI">Piauí</option>
-                <option value="MA">Maranhão</option>
-                <option value="TO">Tocantins</option>
-                <option value="PA">Pará</option>
-                <option value="AM">Amazonas</option>
-                <option value="RR">Roraima</option>
-                <option value="AP">Amapá</option>
+                <option value="">Selecione o estado</option>
                 <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
                 <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
             </select>
 
             <label for="cidade">Cidade que nasceu:</label>
-            <input type="text" id="cidade" required>
+            <input type="text" id="cidade" placeholder="Ex: Curitiba" required>
 
             <label for="time">Time Brasileiro que Torce:</label>
             <select id="time" required>
-                <option value="">Selecione</option>
+                <option value="">Selecione seu time</option>
                 <option value="Flamengo">Flamengo</option>
-                <option value="Corinthians">Corinthians</option>
                 <option value="Palmeiras">Palmeiras</option>
+                <option value="Corinthians">Corinthians</option>
+                <option value="Vasco">Vasco</option>
                 <option value="São Paulo">São Paulo</option>
                 <option value="Grêmio">Grêmio</option>
                 <option value="Internacional">Internacional</option>
                 <option value="Santos">Santos</option>
                 <option value="Cruzeiro">Cruzeiro</option>
                 <option value="Atlético-MG">Atlético-MG</option>
-                <option value="Vasco">Vasco</option>
-                <option value="outro">Outro</option>
+                <option value="Botafogo">Botafogo</option>
+                <option value="Fluminense">Fluminense</option>
+                <option value="Athletico-PR">Athletico-PR</option>
+                <option value="Bahia">Bahia</option>
+                <option value="Fortaleza">Fortaleza</option>
+                <option value="Vitória">Vitória</option>
+                <option value="Sport">Sport</option>
+                <option value="Ceará">Ceará</option>
+                <option value="outro">Outro time / Não torço</option>
             </select>
 
-            <label for="plataforma">Plataforma que usa pra jogar:</label>
+            <label for="plataforma">Plataforma principal de jogos:</label>
             <select id="plataforma" required>
                 <option value="">Selecione</option>
                 <option value="PC">PC</option>
-                <option value="Console">Console</option>
+                <option value="Console">Console (PS/Xbox)</option>
                 <option value="Mobile">Mobile</option>
                 <option value="VR">VR</option>
             </select>
 
-            <label for="jogos">Quais Jogos que joga (selecione um ou mais):</label>
+            <label for="jogos">Quais jogos você joga? (máx. 3)</label>
             <select id="jogos" multiple required>
                 <option value="Minecraft">Minecraft</option>
                 <option value="Roblox">Roblox</option>
                 <option value="Fortnite">Fortnite</option>
                 <option value="League of Legends">League of Legends</option>
-                <option value="GTA V">GTA V</option>
-                <option value="Among Us">Among Us</option>
+                <option value="GTA V / GTA Online">GTA V / GTA Online</option>
                 <option value="Valorant">Valorant</option>
-                <option value="Call of Duty">Call of Duty</option>
-                <option value="FIFA">FIFA</option>
-                <option value="PUBG">PUBG</option>
+                <option value="Counter-Strike 2">Counter-Strike 2</option>
+                <option value="PUBG / BGMI">PUBG / BGMI</option>
+                <option value="Call of Duty (Warzone/Mobile)">Call of Duty</option>
+                <option value="EA FC / FIFA">EA FC / FIFA</option>
+                <option value="Among Us">Among Us</option>
+                <option value="Genshin Impact">Genshin Impact</option>
+                <option value="Free Fire">Free Fire</option>
+                <option value="Apex Legends">Apex Legends</option>
+                <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+                <option value="Overwatch 2">Overwatch 2</option>
+                <option value="The Sims 4">The Sims 4</option>
+                <option value="Fall Guys">Fall Guys</option>
+                <option value="Rocket League">Rocket League</option>
+                <option value="Brawl Stars">Brawl Stars</option>
             </select>
+            <p class="dica">(segure Ctrl ou Cmd para selecionar múltiplos – máximo 3)</p>
 
-            <button type="submit">Calcular Aura</button>
+            <button type="submit">CALCULAR MINHA AURA</button>
         </form>
+
         <div id="resultado" class="hidden">
-            <h2>Sua Aura:</h2>
-            <p id="auraValor"></p>
+            <h2>Sua Aura Total:</h2>
+            <p id="auraValor" class="aura-numero"></p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
