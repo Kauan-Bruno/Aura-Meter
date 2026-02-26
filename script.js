@@ -1,4 +1,5 @@
-// JS
+// JS atualizado - Aura escalada para 0 a ~1 trilhão
+
 document.getElementById('auraForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -12,33 +13,41 @@ document.getElementById('auraForm').addEventListener('submit', function(e) {
     const jogosSelect = document.getElementById('jogos');
     const jogos = Array.from(jogosSelect.selectedOptions).map(option => option.value);
 
-    // Calcular aura fixa de nome e idade
+    // Aura base bem maior (milhões a dezenas de bilhões)
     let aura = calcularAuraNome(nome) + calcularAuraIdade(idade);
 
-    // Calcular multiplicadores
+    // Multiplicador total
     let multiplicador = 1;
+
     multiplicador *= (1 + calcularPorcentagemGenero(genero));
     multiplicador *= (1 + calcularPorcentagemEstado(estado));
     multiplicador *= (1 + calcularPorcentagemTime(time));
-
-    // Plataforma é %
     multiplicador *= (1 + calcularPorcentagemPlataforma(plataforma));
 
-    // Jogos: somar efeitos, pois múltiplos
+    // Efeitos dos jogos
     jogos.forEach(jogo => {
-        const efeitoJogo = calcularEfeitoJogo(jogo);
-        if (efeitoJogo.isPercent) {
-            multiplicador *= (1 + efeitoJogo.valor);
+        const efeito = calcularEfeitoJogo(jogo);
+        if (efeito.isPercent) {
+            multiplicador *= (1 + efeito.valor);
         } else {
-            aura += efeitoJogo.valor;
+            aura += efeito.valor;
         }
     });
 
-    // Aplicar multiplicador à aura
+    // Bônus final pequeno aleatório (ajuda a variar)
+    aura += randomInt(-500_000_000, 1_500_000_000); // -0.5B a +1.5B
+
+    // Aplicar multiplicador
     aura = Math.round(aura * multiplicador);
 
-    // Mostrar resultado
-    document.getElementById('auraValor').textContent = `${aura} Aura`;
+    // Limitar entre 0 e 1 trilhão
+    aura = Math.max(0, Math.min(aura, 1_000_000_000_000));
+
+    // Formatar com sufixos para ficar legível
+    const auraFormatada = formatarNumero(aura);
+
+    // Mostrar
+    document.getElementById('auraValor').textContent = `${auraFormatada} Aura`;
     document.getElementById('resultado').classList.remove('hidden');
 });
 
@@ -54,97 +63,87 @@ function calcularAuraNome(nome) {
 
     let auraNome = 0;
 
-    // Primeiro nome
+    // Primeiro nome (escalado ×100)
     const lenPrimeiro = primeiroNome.length;
     if (lenPrimeiro < 5) {
-        auraNome += randomInt(5000, 10000);
+        auraNome += randomInt(500_000, 1_000_000);     // 0.5M – 1M
     } else if (lenPrimeiro <= 7) {
-        auraNome += randomInt(3000, 7000);
+        auraNome += randomInt(300_000, 700_000);
     } else {
-        auraNome += randomInt(1000, 3000);
+        auraNome += randomInt(100_000, 300_000);
     }
 
-    // Sobrenomes
+    // Sobrenomes (escalado)
     if (numSobrenomes === 1) {
-        auraNome += randomInt(5000, 10000);
+        auraNome += randomInt(500_000, 1_000_000);
     } else if (numSobrenomes === 2 || numSobrenomes === 3) {
-        auraNome += randomInt(2000, 3000);
+        auraNome += randomInt(200_000, 300_000);
     } else if (numSobrenomes > 3) {
-        auraNome -= 4000;
+        auraNome -= 400_000;
     }
 
-    return auraNome;
+    return auraNome * 100;  // ×100 final → casa dos milhões/bilhões
 }
 
 function calcularAuraIdade(idade) {
     if (idade < 13) {
-        return randomInt(2000, 5000);
+        return randomInt(200_000, 500_000) * 100;
     } else if (idade >= 14 && idade <= 18) {
-        return randomInt(3000, 7000);
+        return randomInt(300_000, 700_000) * 100;
     } else if (idade >= 19 && idade <= 30) {
-        return randomInt(5000, 10000);
+        return randomInt(500_000, 1_000_000) * 100;
     } else if (idade > 40) {
-        return randomInt(10000, 20000);
-    } else {
-        // Gap 31-40: 0
-        return 0;
-    }
-}
-
-function calcularPorcentagemGenero(genero) {
-    if (genero === 'outro') {
-        return -0.05;
+        return randomInt(1_000_000, 2_000_000) * 100;
     }
     return 0;
 }
 
-function calcularPorcentagemEstado(estado) {
-    // Mapa de estados por "proximidade ao Sul": Sul alto, Norte baixo
-    const estadosSul = ['RS', 'SC', 'PR']; // +20%
-    const estadosSudeste = ['SP', 'RJ', 'MG', 'ES']; // +10%
-    const estadosCentroOeste = ['MS', 'MT', 'GO', 'DF']; // 0%
-    const estadosNordeste = ['BA', 'SE', 'AL', 'PE', 'PB', 'RN', 'CE', 'PI', 'MA']; // -10%
-    const estadosNorte = ['TO', 'PA', 'AM', 'RR', 'AP', 'AC', 'RO']; // -15%
+function calcularPorcentagemGenero(genero) {
+    return genero === 'outro' ? -0.05 : 0;
+}
 
-    if (estadosSul.includes(estado)) {
-        return 0.20;
-    } else if (estadosSudeste.includes(estado)) {
-        return 0.10;
-    } else if (estadosCentroOeste.includes(estado)) {
-        return 0;
-    } else if (estadosNordeste.includes(estado)) {
-        return -0.10;
-    } else if (estadosNorte.includes(estado)) {
-        return -0.15;
-    }
-    return -0.15; // Default se inválido
+function calcularPorcentagemEstado(estado) {
+    const sul      = ['RS', 'SC', 'PR'];           // +20%
+    const sudeste  = ['SP', 'RJ', 'MG', 'ES'];     // +10%
+    const centro   = ['MS', 'MT', 'GO', 'DF'];     // 0%
+    const nordeste = ['BA','SE','AL','PE','PB','RN','CE','PI','MA']; // -10%
+    const norte    = ['TO','PA','AM','RR','AP','AC','RO'];           // -15%
+
+    if (sul.includes(estado))      return 0.20;
+    if (sudeste.includes(estado))  return 0.10;
+    if (centro.includes(estado))   return 0;
+    if (nordeste.includes(estado)) return -0.10;
+    if (norte.includes(estado))    return -0.15;
+    return -0.15;
 }
 
 function calcularPorcentagemTime(time) {
-    const timesTop = ['Flamengo', 'Corinthians', 'Palmeiras', 'São Paulo', 'Grêmio', 'Internacional', 'Santos', 'Cruzeiro', 'Atlético-MG', 'Vasco'];
-    if (time === 'outro' || !timesTop.includes(time)) {
-        return -0.30;
-    }
-    // Varia entre -10% e +20% aleatoriamente para os top
+    const top10 = ['Flamengo','Corinthians','Palmeiras','São Paulo','Grêmio','Internacional','Santos','Cruzeiro','Atlético-MG','Vasco'];
+    if (!top10.includes(time)) return -0.30;
     return randomInt(-10, 20) / 100;
 }
 
 function calcularPorcentagemPlataforma(plataforma) {
-    switch (plataforma) {
-        case 'PC': return 0.20;
-        case 'Console': return 0.10;
-        case 'Mobile': return -0.15;
-        case 'VR': return -0.15;
-        default: return 0;
-    }
+    const bonus = { 'PC': 0.20, 'Console': 0.10, 'Mobile': -0.15, 'VR': -0.15 };
+    return bonus[plataforma] || 0;
 }
 
 function calcularEfeitoJogo(jogo) {
     if (jogo === 'Minecraft') {
-        return { isPercent: true, valor: 1.00 }; // +100%
-    } else if (jogo === 'Roblox') {
-        return { isPercent: true, valor: -0.75 }; // -75%
-    } else {
-        return { isPercent: false, valor: randomInt(-10000, 15000) }; // Fixo -10k a +15k
+        return { isPercent: true, valor: 1.00 };   // ×2
     }
+    if (jogo === 'Roblox') {
+        return { isPercent: true, valor: -0.75 };  // ×0.25
+    }
+    // Outros jogos → valor fixo grande
+    return { isPercent: false, valor: randomInt(-50_000_000, 150_000_000) }; // -50M a +150M
+}
+
+// Formatação bonita: B, M, K, etc.
+function formatarNumero(num) {
+    if (num >= 1_000_000_000_000) return (num / 1_000_000_000_000).toFixed(2) + 'T';
+    if (num >= 1_000_000_000)    return (num / 1_000_000_000).toFixed(1) + 'B';
+    if (num >= 1_000_000)        return (num / 1_000_000).toFixed(1) + 'M';
+    if (num >= 1_000)            return (num / 1_000).toFixed(0) + 'K';
+    return num.toString();
 }
